@@ -71,8 +71,6 @@ func handleGPTRequest(ctx *fasthttp.RequestCtx) {
 		ctx.SetContentType("application/json")
 		ctx.SetStatusCode(fasthttp.StatusOK)
 		fmt.Fprintf(ctx, `{"error": %q}`, err.Error())
-		//		log.Printf("Error in asking GPT: %v", err)
-		//		ctx.Error("Internal Server Error", fasthttp.StatusInternalServerError)
 		return
 	}
 
@@ -103,22 +101,5 @@ func askGPT(command string) (string, error) {
 		return resp.Choices[0].Message.Content, nil
 	}
 
-	/*
-		req := openai.CompletionRequest{
-			Model:       "text-davinci-004", // Используйте здесь модель GPT-4
-			Prompt:      command,
-			Temperature: cfg.ModelTemperature,
-			MaxTokens:   32000, // Можно настроить
-		}
-
-		resp, err := openAIClient.CreateCompletion(context.Background(), req)
-		if err != nil {
-			return "", fmt.Errorf("ERR: %v RESP: %v", err, resp)
-		}
-
-		if len(resp.Choices) > 0 {
-			return resp.Choices[0].Text, nil
-		}
-	*/
 	return "", fmt.Errorf("no response from GPT")
 }
